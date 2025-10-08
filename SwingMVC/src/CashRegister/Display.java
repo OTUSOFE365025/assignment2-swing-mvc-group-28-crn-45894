@@ -1,31 +1,37 @@
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
 // Implement the Property Listener to connect the display to the other objects
 public class Display implements PropertyChangeListener {
     // Instantiate product object and subtotal variable to be displayed
 	private Product product;
     private double subtotal = 0;
-    NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
-    // Empty contructor
-	Display () {}
+    private ArrayList<String> listToView = new ArrayList<String>();
+    private final NumberFormat formatter = NumberFormat.getCurrencyInstance();
+    private final ScrollableList viewport;
+
+    // Constructor
+	Display (ScrollableList viewport) {
+        this.viewport = viewport;
+    }
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equalsIgnoreCase("Product")) {
+        if (evt.getPropertyName().equalsIgnoreCase("Products List")) {
             // Get the updated product
-            product = (Product) evt.getNewValue();
-
-            // Print to console (to "display")
-            System.out.print("Product name: " + product.getName() + ", Price = " + formatter.format(product.getPrice()));
+            listToView = (ArrayList<String>) evt.getNewValue();
         }
 
         else if (evt.getPropertyName().equalsIgnoreCase("Subtotal")) {
             subtotal += (Double) evt.getNewValue();
-            System.out.println(" --> Subtotal: " + formatter.format(subtotal));
+            listToView.add("Subtotal: " + formatter.format(subtotal));
         }
+
+        // Update the viewport
+        viewport.update(listToView);
 	}
 
 }

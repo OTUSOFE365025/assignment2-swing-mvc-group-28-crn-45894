@@ -13,7 +13,8 @@ public class Keyboard {
 
     Keyboard(String title, CashRegisterModel register) {
         this.cashRegister = register;
-	  
+
+        // Create the frame for the UI
         frame = new JFrame(title);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 80);

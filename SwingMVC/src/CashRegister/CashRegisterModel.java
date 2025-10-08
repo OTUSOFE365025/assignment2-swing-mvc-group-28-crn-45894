@@ -48,7 +48,14 @@ public class CashRegisterModel {
 
         if (doesProductExist) {
             // Tell the display a product was found and send it to the display
-            observables.firePropertyChange("Product", null, foundProduct);
+            ArrayList<String> temp = new ArrayList<String>();
+
+            for (Product p : myProducts) {
+                temp.add(p.toString());
+            }
+
+            observables.firePropertyChange("Products List", null, temp);
+
             // Also send an update for the subtotal
             observables.firePropertyChange("Subtotal", null, foundProduct.getPrice());
         }
